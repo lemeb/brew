@@ -1,3 +1,4 @@
+require "keg"
 require "cli/parser"
 
 module Homebrew
@@ -16,6 +17,7 @@ module Homebrew
 
   def unused
     unused_args.parse
+
     puts "Unused kegs are orphan kegs 😢"
   end
 end
