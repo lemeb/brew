@@ -289,7 +289,8 @@ module GitHub
 
   def issues_for_formula(name, options = {})
     tap = options[:tap] || CoreTap.instance
-    search_issues(name, state: "open", repo: tap.full_name, in: "title")
+    tap_full_name = options[:tap_full_name] || tap.full_name
+    search_issues(name, state: "open", repo: tap_full_name, in: "title")
   end
 
   def user
@@ -337,6 +338,15 @@ module GitHub
     data = {}
     scopes = CREATE_ISSUE_FORK_OR_PR_SCOPES
     open_api(url, data: data, scopes: scopes)
+  end
+
+  def check_fork_exists(repo)
+    _, username = api_credentials
+    _, reponame = repo.split("/")
+    json = open_api(url_to("repos", username, reponame))
+    return false if json["message"] == "Not Found"
+
+    true
   end
 
   def create_pull_request(repo, title, head, base, body)

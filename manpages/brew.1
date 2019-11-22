@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "BREW" "1" "October 2019" "Homebrew" "brew"
+.TH "BREW" "1" "November 2019" "Homebrew" "brew"
 .
 .SH "NAME"
 \fBbrew\fR \- The missing package manager for macOS
@@ -251,11 +251,11 @@ List global Homebrew analytics data or, if specified, installation and build err
 .
 .TP
 \fB\-\-days\fR
-How many days of global analytics data to retrieve\. The value for \fIdays\fR must be \fB30\fR, \fB90\fR or \fB365\fR\. The default is \fB30\fR\.
+How many days of analytics data to retrieve\. The value for \fIdays\fR must be \fB30\fR, \fB90\fR or \fB365\fR\. The default is \fB30\fR\.
 .
 .TP
 \fB\-\-category\fR
-Which type of global analytics data to retrieve\. The value for \fIcategory\fR must be \fBinstall\fR, \fBinstall\-on\-request\fR, \fBcask\-install\fR, \fBbuild\-error\fR or \fBos\-version\fR\. The default is \fBinstall\fR\.
+Which type of analytics data to retrieve\. The value for \fIcategory\fR must be \fBinstall\fR, \fBinstall\-on\-request\fR or \fBbuild\-error\fR; \fBcask\-install\fR or \fBos\-version\fR may be specified if \fIformula\fR is not\. The default is \fBinstall\fR\.
 .
 .TP
 \fB\-\-github\fR
@@ -898,10 +898,6 @@ Generate a bottle (binary package) from a formula that was installed with \fB\-\
 Do not check if the bottle can be marked as relocatable\.
 .
 .TP
-\fB\-\-or\-later\fR
-Append \fB_or_later\fR to the bottle tag\.
-.
-.TP
 \fB\-\-force\-core\-tap\fR
 Build a bottle even if \fIformula\fR is not in \fBhomebrew/core\fR or any installed taps\.
 .
@@ -968,6 +964,10 @@ Run \fBbrew audit \-\-strict\fR before opening the PR\.
 .TP
 \fB\-\-no\-browse\fR
 Print the pull request URL instead of opening in a browser\.
+.
+.TP
+\fB\-\-no\-fork\fR
+Don\'t try to fork the repository\.
 .
 .TP
 \fB\-\-mirror\fR
@@ -1071,6 +1071,9 @@ Extract the specified \fIversion\fR of \fIformula\fR instead of the most recent\
 .
 .SS "\fBformula\fR \fIformula\fR"
 Display the path where \fIformula\fR is located\.
+.
+.SS "\fBinstall\-bundler\-gems\fR"
+Install Homebrew\'s Bundler gems\.
 .
 .SS "\fBirb\fR [\fIoptions\fR]"
 Enter the interactive Homebrew Ruby shell\.

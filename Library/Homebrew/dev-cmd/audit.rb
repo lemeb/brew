@@ -920,7 +920,9 @@ module Homebrew
 
       problem "Use separate make calls" if line.include?("make && make")
 
-      if line =~ /JAVA_HOME/i && !formula.requirements.map(&:class).include?(JavaRequirement)
+      if line =~ /JAVA_HOME/i &&
+         [formula.name, *formula.deps.map(&:name)].none? { |name| name.match?(/^openjdk(@|$)/) } &&
+         formula.requirements.none? { |req| req.is_a?(JavaRequirement) }
         problem "Use `depends_on :java` to set JAVA_HOME"
       end
 
@@ -946,15 +948,13 @@ module Homebrew
         problem "`Use :optional` or `:recommended` instead of `#{Regexp.last_match(0)}`"
       end
 
-      return unless line =~ %r{share(\s*[/+]\s*)(['"])#{Regexp.escape(formula.name)}(?:\2|/)}
-
-      problem "Use pkgshare instead of (share#{Regexp.last_match(1)}\"#{formula.name}\")"
+      if line =~ %r{share(\s*[/+]\s*)(['"])#{Regexp.escape(formula.name)}(?:\2|/)}
+        problem "Use pkgshare instead of (share#{Regexp.last_match(1)}\"#{formula.name}\")"
+      end
 
       return unless @core_tap
 
-      return unless line.include?("env :std")
-
-      problem "`env :std` in `core` formulae is deprecated"
+      problem "`env :std` in `core` formulae is deprecated" if line.include?("env :std")
     end
 
     def audit_reverse_migration
